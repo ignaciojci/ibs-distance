@@ -1,30 +1,20 @@
----
-title: "IBS Genetic Distance Calculation Example"
-author: "John Carlos Ignacio"
-date: '2025-06-09'
-output: md_document
----
+# Load necessary libraries
+library(reshape2)
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+# Source the ibs-distance.R script from GitHub
+source("https://raw.githubusercontent.com/ignaciojci/ibs-distance/refs/heads/main/ibs-distance.R")
 
-## R Markdown
+# Create the genotype matrix
+m <- matrix(c(2,0,0,0,0,2,0,0,2,2,2,2), nrow=3,dimnames = list(paste0("Geno",1:3), paste0("Mark",1:4)))
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Display the matrix
+m
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Calculate the IBS genetic distance
+gd <- ibs.dist(m, center=TRUE)
 
-```{r cars}
-summary(cars)
-```
+# Melt the distance matrix into a long format and keep only the upper triangle
+gd_list <- melt(gd, varnames = c("LineA", "LineB"), value.name = "Genetic Distance")[upper.tri(gd),]
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Display the resulting list
+gd_list
