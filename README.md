@@ -41,7 +41,7 @@ represent the allele counts per marker.
     # Define a sample genotype matrix
     m <- matrix(c(2,0,0,
                   0,0,2,
-                  0,2,2,
+                  0,0,2,
                   2,2,2),
                 nrow=3,
                 dimnames = list(paste0("Geno",1:3),
@@ -52,7 +52,7 @@ represent the allele counts per marker.
 
     ##       Mark1 Mark2 Mark3 Mark4
     ## Geno1     2     0     0     2
-    ## Geno2     0     0     2     2
+    ## Geno2     0     0     0     2
     ## Geno3     0     2     2     2
 
 ------------------------------------------------------------------------
@@ -69,9 +69,9 @@ with centering enabled.
     gd
 
     ##       Geno1 Geno2 Geno3
-    ## Geno1  0.00  0.50  0.75
-    ## Geno2  0.50  0.00  0.25
-    ## Geno3  0.75  0.25  0.00
+    ## Geno1  0.00  0.25  0.75
+    ## Geno2  0.25  0.00  0.50
+    ## Geno3  0.75  0.50  0.00
 
 ------------------------------------------------------------------------
 
@@ -89,9 +89,9 @@ pairs.
     gd_list
 
     ##   LineA LineB Genetic Distance
-    ## 4 Geno1 Geno2             0.50
+    ## 4 Geno1 Geno2             0.25
     ## 7 Geno1 Geno3             0.75
-    ## 8 Geno2 Geno3             0.25
+    ## 8 Geno2 Geno3             0.50
 
 ------------------------------------------------------------------------
 
