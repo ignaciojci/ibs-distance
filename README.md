@@ -18,17 +18,18 @@ long-form data frame.
 
 ------------------------------------------------------------------------
 
-## Source Custom IBS Distance Function
+## Install IBS Distance Function
 
-The IBS distance function `ibs.dist` is sourced from this GitHub
+The IBS distance function `ibs.dist` is installed from this GitHub
 repository:
 
--   **Repository**: <https://github.com/ignaciojci/ibs-distance>
+-   **Repository**: <https://github.com/ignaciojci/ibsdiste>
 
 <!-- -->
 
-    # Source the custom IBS distance calculation function
-    source("https://raw.githubusercontent.com/ignaciojci/ibs-distance/refs/heads/main/ibs-distance.R")
+    # Install and load library
+    if (!require("remotes")) install.packages("remotes")
+    remotes::install_github("ignaciojci/ibsdist")
 
 ------------------------------------------------------------------------
 
@@ -54,16 +55,19 @@ represent the allele counts per marker.
     ## Geno1     2     0     0     2
     ## Geno2     0     0     0     2
     ## Geno3     0     2     2     2
+    
+    # A larger matrix
+    M <- matrix(sample(c(0L,1L,2L,NA_integer_), 100*500, replace=TRUE),
+            nrow=2000, ncol=5000)
 
 ------------------------------------------------------------------------
 
 ## Compute IBS Genetic Distance
 
-We compute the genetic distance matrix using the `ibs.dist()` function
-with centering enabled.
+We compute the genetic distance matrix using the `ibs.dist()` function.
 
     # Calculate the IBS genetic distance matrix
-    gd <- ibs.dist(m, center=TRUE)
+    gd <- ibs.dist(m)
 
     # Display the resulting distance matrix
     gd
@@ -92,13 +96,3 @@ pairs.
     ## 4 Geno1 Geno2             0.25
     ## 7 Geno1 Geno3             0.75
     ## 8 Geno2 Geno3             0.50
-
-------------------------------------------------------------------------
-
-## Conclusion
-
-This document demonstrated how to:
-
-1.  Create a genotype matrix.
-2.  Calculate IBS genetic distances using a custom function.
-3.  Reshape and display the resulting distance data for interpretation.
