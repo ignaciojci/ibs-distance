@@ -23,7 +23,7 @@ long-form data frame.
 The IBS distance function `ibs.dist` is installed from this GitHub
 repository:
 
--   **Repository**: <https://github.com/ignaciojci/ibsdiste>
+-   **Repository**: <https://github.com/ignaciojci/ibsdist>
 
 <!-- -->
 
