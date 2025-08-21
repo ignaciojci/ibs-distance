@@ -8,6 +8,6 @@ Description: Compute pairwise Identity-By-State distances for large genotype mat
 License: GPL-3
 Encoding: UTF-8
 Imports:
-    Rcpp (>= 1.0.4.6)
+    Rcpp
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.1.0
