@@ -15,9 +15,9 @@ using namespace Rcpp;
 
 // popcount for 64-bit words
 static inline uint32_t popcnt64(uint64_t x) {
-#if defined(__GNUG__) || defined(__clang__)
-  return static_cast<uint32_t>(__builtin_popcountll(x));
-#else
+  #if defined(__GNUG__) || defined(__clang__)
+    return static_cast<uint32_t>(__builtin_popcountll(x));
+  #else
   // portable fallback (Hacker's Delight)
   x = x - ((x >> 1) & 0x5555555555555555ULL);
   x = (x & 0x3333333333333333ULL) + ((x >> 2) & 0x3333333333333333ULL);
@@ -129,10 +129,11 @@ NumericMatrix fast_ibs(SEXP M_,
   }
 
   NumericMatrix D(n, n);
+
   // Optionally set OpenMP threads
-#ifdef _OPENMP
-  if (n_threads > 0) omp_set_num_threads(n_threads);
-#endif
+  #ifdef _OPENMP
+    if (n_threads > 0) omp_set_num_threads(n_threads);
+  #endif
 
   // Block over i to improve cache locality
   const int B = std::max(1, block_size);
@@ -141,7 +142,10 @@ NumericMatrix fast_ibs(SEXP M_,
     int i_end = std::min(n, ib + B);
 
     // Parallelize the inner i-loop; each (i, *) row is independent
-    #pragma omp parallel for schedule(dynamic)
+    // Parallelize only if OpenMP is available
+    #ifdef _OPENMP
+      #pragma omp parallel for schedule(dynamic)
+    #endif
     for (int i = ib; i < i_end; ++i) {
       for (int j = i; j < n; ++j) {
         if (i == j && !diagonal_trueIBS) {
