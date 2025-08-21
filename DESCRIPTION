@@ -1,0 +1,13 @@
+Package: ibsdist
+Type: Package
+Title: IBS Distance Calculator
+Version: 0.1.0
+Author: John Carlos Ignacio
+Maintainer: John Carlos Ignacio <carlignacio@gmail.com>
+Description: Compute pairwise Identity-By-State distances for large genotype matrices using a hybrid bit-parallel and BLAS approach.
+License: GPL-3
+Encoding: UTF-8
+Imports:
+    Rcpp (>= 1.0.4.6)
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 7.1.0

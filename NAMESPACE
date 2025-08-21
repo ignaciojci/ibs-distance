@@ -1,0 +1,3 @@
+useDynLib(ibsdist, .registration=TRUE)
+importFrom(Rcpp, sourceCpp)
+export(fast_ibs)
