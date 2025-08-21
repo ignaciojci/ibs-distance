@@ -1,21 +1,12 @@
-## Introduction
+# ibsdist
 
-This R Markdown document demonstrates how to calculate the IBS
-(Identity-By-State) genetic distance between genotypes using a sample
-genotype matrix. The distance calculation function is sourced from
-[ibs-distance.R](ibs-distance.R).
-
+An R package to efficiently calculate the IBS (Identity-By-State) genetic distance between genotypes.
 
 ------------------------------------------------------------------------
 
 ## Install IBS Distance Function
 
-The IBS distance function `ibs.dist` is installed from this GitHub
-repository:
-
--   **Repository**: <https://github.com/ignaciojci/ibsdist>
-
-<!-- -->
+The IBS distance function `ibs.dist` is installed with:
 
     # Install and load library
     if (!require("remotes")) install.packages("remotes")
