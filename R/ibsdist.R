@@ -8,7 +8,7 @@
 #'
 #' @return Numeric matrix of pairwise IBS distances
 #' @export
-ibs_hybrid <- function(M, block_size = 256, diagonal_trueIBS = FALSE,
+ibs.dist <- function(M, block_size = 256, diagonal_trueIBS = FALSE,
                        min_sites = 0, n_threads = 0) {
-    ibs_hybrid_bitpack(M, block_size, diagonal_trueIBS, min_sites, n_threads)
+    fast_ibs(M, block_size, diagonal_trueIBS, min_sites, n_threads)
 }
