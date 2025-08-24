@@ -1,31 +1,12 @@
-## Introduction
+# ibsdist
 
-This R Markdown document demonstrates how to calculate the IBS
-(Identity-By-State) genetic distance between genotypes using a sample
-genotype matrix. The distance calculation function is sourced from
-[ibs-distance.R](ibs-distance.R).
-
-------------------------------------------------------------------------
-
-## Load Required Packages
-
-We need the `reshape2` package for data transformation (specifically the
-`melt()` function) to process the genetic distance matrix into a
-long-form data frame.
-
-    # Load necessary library
-    library(reshape2)
+An R package to efficiently calculate the IBS (Identity-By-State) genetic distance between genotypes.
 
 ------------------------------------------------------------------------
 
 ## Install IBS Distance Function
 
-The IBS distance function `ibs.dist` is installed from this GitHub
-repository:
-
--   **Repository**: <https://github.com/ignaciojci/ibsdist>
-
-<!-- -->
+The IBS distance function `ibs.dist` is installed with:
 
     # Install and load library
     if (!require("remotes")) install.packages("remotes")
@@ -57,8 +38,10 @@ represent the allele counts per marker.
     ## Geno3     0     2     2     2
     
     # A larger matrix
-    M <- matrix(sample(c(0L,1L,2L,NA_integer_), 100*500, replace=TRUE),
-            nrow=2000, ncol=5000)
+    set.seed(1)
+    n <- 2000; p <- 5000
+    M <- matrix(sample(c(0L,1L,2L,NA_integer_), n*p, replace=TRUE, prob=c(0.49,0.02,0.49,0.00)),
+                nrow=n, ncol=p)
 
 ------------------------------------------------------------------------
 
@@ -66,6 +49,8 @@ represent the allele counts per marker.
 
 We compute the genetic distance matrix using the `ibs.dist()` function.
 
+    library(ibsdist)
+    
     # Calculate the IBS genetic distance matrix
     gd <- ibs.dist(m)
 
@@ -86,6 +71,8 @@ the distance matrix into a long-format data frame. Only the upper
 triangle of the symmetric distance matrix is used to avoid redundant
 pairs.
 
+    library(reshape2)
+    
     # Convert distance matrix into long format for easier interpretation
     gd_list <- melt(gd, varnames = c("LineA", "LineB"), value.name = "Genetic Distance")[upper.tri(gd), ]
 
