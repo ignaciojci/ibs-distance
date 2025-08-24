@@ -52,10 +52,10 @@ static void pack_sample_bitplanes(const int* col, int p,
 }
 
 // Compute IBS for one pair (i,j) using bitplanes, returns {dist, sites}
-// IBS identity = (same - 0.5*hets) / sites, dist = 1 - identity.
+// IBS identity = (same + 0.5*hets) / sites, dist = 1 - identity.
 // same counts (0-0), (2-2), and (1-1)
-// diff counts (0-2), (2-0), (het vs hom), and (het-het)
-// hets counts (1-1).
+// diff counts (0-2), (2-0)
+// half counts (het vs hom).
 static inline std::pair<double,double>
 pair_ibs(const std::vector<uint64_t>& b0i,
          const std::vector<uint64_t>& b1i,
@@ -67,8 +67,8 @@ pair_ibs(const std::vector<uint64_t>& b0i,
          const std::vector<uint64_t>& bMj) {
 
   const int W = static_cast<int>(b0i.size());
-  uint64_t same_bits, diff_bits, half_bits, het_bits, valid;
-  long long sameCnt = 0, diffCnt = 0, halfCnt = 0, hetCnt = 0, sites = 0;
+  uint64_t same_bits, diff_bits, half_bits, valid;
+  long long sameCnt = 0, diffCnt = 0, halfCnt = 0, sites = 0;
 
   for (int w = 0; w < W; ++w) {
     // sites valid in both
@@ -81,28 +81,24 @@ pair_ibs(const std::vector<uint64_t>& b0i,
     // hom-hom different, het-hom, hom-het, and also include het-het so that
     // same + diff - het counts one site for het-het
     diff_bits = (
-      (b0i[w] & b2j[w]) | (b2i[w] & b0j[w]) |
-      (b1i[w] & b1j[w])
+      (b0i[w] & b2j[w]) |
+      (b2i[w] & b0j[w])
     ) & valid;
 
     half_bits = (
       (b1i[w] & (b0j[w] | b2j[w])) |
       (b1j[w] & (b0i[w] | b2i[w]))
     ) & valid;
-    
-    // het-het
-    het_bits = (b1i[w] & b1j[w]) & valid;
 
     sameCnt += popcnt64(same_bits);
     diffCnt += popcnt64(diff_bits);
     halfCnt += popcnt64(half_bits);
-    hetCnt  += popcnt64(het_bits);
   }
 
-  sites = sameCnt + diffCnt + halfCnt - hetCnt; // ensure het-het counts once
+  sites = sameCnt + diffCnt + halfCnt;
   if (sites <= 0) return {NAN, 0.0};
 
-  double identity = ( (double)sameCnt - 0.5 * (double)halfCnt ) / (double)sites;
+  double identity = ( (double)sameCnt + 0.5 * (double)halfCnt ) / (double)sites;
   double dist = 1.0 - identity;
   return {dist, (double)sites};
 }
